@@ -1,23 +1,46 @@
+// server/index.js
 import express from "express";
 import cors from "cors";
 import pg from "pg";
+
 const { Pool } = pg;
 
+// Load .env only in local development
+if (process.env.NODE_ENV !== "production") {
+  import('dotenv').then(dotenv => {
+    dotenv.config({ path: "./server/.env" });
+    console.log("✅ Loaded local .env");
+  });
+}
+
+// Ensure DATABASE_URL exists
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  console.error("❌ DATABASE_URL is not set. Set it in .env (local) or Render environment variables.");
+  process.exit(1);
+}
+
+// PostgreSQL pool setup
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  connectionString: DATABASE_URL,
+  ssl: { rejectUnauthorized: false }, // required for Neon
 });
 
 pool.connect()
-  .then(() => console.log("✅ Connected to Neon PostgreSQL"))
-  .catch((err) => console.error("❌ Connection error:", err));
+  .then(() => console.log("✅ Connected to PostgreSQL"))
+  .catch((err) => {
+    console.error("❌ Connection error:", err);
+    process.exit(1);
+  });
 
+// Express setup
 const app = express();
-app.use(cors()); // allow frontend calls
+app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
+// Routes
 app.get("/api/posts", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM posts ORDER BY created_at DESC");
@@ -42,6 +65,7 @@ app.get("/api/posts/:id", async (req, res) => {
   }
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
