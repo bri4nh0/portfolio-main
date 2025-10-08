@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
+
+
 
 const navItems = [
-    {name: "Home", href: "#hero"},
-    {name: "About", href: "#about"},
-    {name: "Skills", href: "#skills"},
-    {name: "Projects", href: "#projects"},
-    {name: "Contact", href: "#contact"},
+    { name: "Home", href: "#hero" },
+    { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Projects", href: "#projects" },
+    { name: "Contact", href: "#contact" },
+    { name: "Blog", href: "/blog" }, // <-- new item
 ];
 
 export const Navbar = () => {
@@ -41,15 +45,26 @@ export const Navbar = () => {
 
                 <div className="hidden md:flex space-x-8">
                     {navItems.map((item,key) => (
-                        <a 
-                        key={key} 
-                        href={item.href} 
-                        className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                        item.href.startsWith("/") ? (
+                        <Link
+                            key={key}
+                            to={item.href}
+                            className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                        >
+                            {item.name}
+                        </Link>
+                        ) : (
+                        <a
+                            key={key}
+                            href={item.href}
+                            className="text-foreground/80 hover:text-primary transition-colors duration-300"
                         >
                             {item.name}
                         </a>
+                        )
                     ))}
                 </div>
+
 
                 <button 
                     onClick={() => setIsMenuOpen((prev) => !prev)}
@@ -67,16 +82,28 @@ export const Navbar = () => {
                 )}>
                     <div className="flex flex-col space-y-8 text-xl">
                         {navItems.map((item,key) => (
-                            <a 
-                            key={key} 
-                            href={item.href} 
-                            className="text-foreground/80 hover:text-primary transition-colors duration-300"
-                            onClick={() => setIsMenuOpen(false)}
+                            item.href.startsWith("/") ? (
+                            <Link
+                                key={key}
+                                to={item.href}
+                                className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                {item.name}
+                            </Link>
+                            ) : (
+                            <a
+                                key={key}
+                                href={item.href}
+                                className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                                onClick={() => setIsMenuOpen(false)}
                             >
                                 {item.name}
                             </a>
+                            )
                         ))}
                     </div>
+
                 </div>
             </div>
         </nav>
