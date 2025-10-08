@@ -12,7 +12,7 @@ export default function BlogPost () {
     const fetchPost = async () => {
       try {
         // ✅ Use relative URL for Vercel
-        const res = await fetch(`/api/posts/${id}`);
+        const res = await fetch(`https://portfolio-main-i403.onrender.com//api/posts/${id}`);
         const data = await res.json();
         setPost(data);
       } catch (error) {

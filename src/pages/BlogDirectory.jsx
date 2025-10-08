@@ -10,7 +10,7 @@ export default function BlogDirectory () {
     const fetchPosts = async () => {
       try {
         // ✅ Relative URL works for both local dev and Vercel
-        const res = await fetch("/api/posts");
+        const res = await fetch("https://portfolio-main-i403.onrender.com//api/posts");
         const data = await res.json();
         setPosts(data);
       } catch (error) {
