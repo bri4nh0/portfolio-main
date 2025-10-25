@@ -6,3 +6,5 @@ This is an interactive animated portfolio that utilizes the following softwares 
 - PostgreSQL using a Neon backend to store the blog content
 - Render for running the blog database server
 - Vercel to host the main website
+
+Future Features:
