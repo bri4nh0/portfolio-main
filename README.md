@@ -8,3 +8,4 @@ This is an interactive animated portfolio that utilizes the following softwares 
 - Vercel to host the main website
 
 Future Features:
+- Links to social media and contact
