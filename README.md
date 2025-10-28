@@ -9,3 +9,4 @@ This is an interactive animated portfolio that utilizes the following softwares 
 
 Future Features:
 - Links to social media and contact
+- Interactive game?
