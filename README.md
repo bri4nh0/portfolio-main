@@ -1,4 +1,4 @@
-# Personal Portfolio
+# Personal Interactive Portfolio
 
 This is an interactive animated portfolio that utilizes the following softwares and languages:
 - React
