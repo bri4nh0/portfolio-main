@@ -65,6 +65,19 @@ app.get("/api/posts/:id", async (req, res) => {
   }
 });
 
+app.post('/api/posts/:id/view', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'UPDATE posts SET views = views + 1 WHERE id = $1 RETURNING views',
+      [req.params.id]
+    );
+    res.json({ views: result.rows[0].views });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
