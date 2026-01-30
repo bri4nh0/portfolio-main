@@ -58,6 +58,17 @@ app.get("/api/posts/:id", async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Post not found" });
     }
+
+    await pool.query(
+      'UPDATE posts SET views = views + 1 WHERE id = $1',
+      [req.params.id]
+    );
+    
+    // Then get the updated post
+    result = await pool.query(
+      'SELECT * FROM posts WHERE id = $1',
+      [req.params.id]
+    );
     res.json(result.rows[0]);
   } catch (err) {
     console.error("❌ Error fetching post:", err);
@@ -65,18 +76,6 @@ app.get("/api/posts/:id", async (req, res) => {
   }
 });
 
-app.post('/api/posts/:id/view', async (req, res) => {
-  try {
-    const result = await pool.query(
-      'UPDATE posts SET views = views + 1 WHERE id = $1 RETURNING views',
-      [req.params.id]
-    );
-    res.json({ views: result.rows[0].views });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 
 // Start server
 app.listen(PORT, () => {
