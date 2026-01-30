@@ -5,21 +5,39 @@ export const ProjectsSection = () => {
   const [projects, setProjects] = useState([]);
   const githubUsername = "bri4nh0"; // Your GitHub username
 
+  // 1. List your EXACT pinned repository names here
+  const PINNED_REPO_NAMES = [
+    "portfolio-main", "todolist-v1"
+    // Add 5 more repository names exactly as they appear on GitHub
+    // Example: "project-2", "awesome-app", "data-visualization-tool"
+  ];
+
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const res = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=6`);
+        // 2. Fetch more repos to ensure we get all pinned ones
+        const res = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=30`);
         const data = await res.json();
 
-        // Map GitHub data into the structure our component expects
-        const mappedProjects = data.map((repo) => ({
+        // 3. Filter to ONLY show pinned repos
+        const pinnedRepos = data.filter(repo => 
+          PINNED_REPO_NAMES.includes(repo.name)
+        );
+
+        // 4. Map GitHub data into our component structure
+        const mappedProjects = pinnedRepos.map((repo) => ({
           id: repo.id,
           title: repo.name,
           description: repo.description || "No description provided.",
           image: "/projects/default.png", // fallback image
-          tags: [], // optional: you can parse topics if you want
+          tags: repo.topics || [], // Use GitHub topics if available
           demoUrl: repo.homepage || "#",
           githubUrl: repo.html_url,
+          // Bonus: Add extra GitHub metadata
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          language: repo.language,
+          updated: repo.updated_at,
         }));
 
         setProjects(mappedProjects);
