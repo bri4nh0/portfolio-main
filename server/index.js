@@ -42,40 +42,29 @@ const PORT = process.env.PORT || 5000;
 
 // Routes
 app.get("/api/posts", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM posts ORDER BY created_at DESC");
-    res.json(result.rows);
-  } catch (error) {
-    console.error("❌ Error fetching posts:", error);
-    res.status(500).json({ error: "Database query failed" });
-  }
-});
-
-app.get("/api/posts/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query("SELECT * FROM posts WHERE id = $1", [id]);
+    // First increment the view count
+    await pool.query(
+      "UPDATE posts SET views = views + 1 WHERE id = $1",
+      [id]
+    );
+    
+    // Then fetch the updated post
+    const result = await pool.query(
+      "SELECT * FROM posts WHERE id = $1",
+      [id]
+    );
+    
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Post not found" });
     }
-
-    await pool.query(
-      'UPDATE posts SET views = views + 1 WHERE id = $1',
-      [req.params.id]
-    );
-    
-    // Then get the updated post
-    result = await pool.query(
-      'SELECT * FROM posts WHERE id = $1',
-      [req.params.id]
-    );
     res.json(result.rows[0]);
   } catch (err) {
     console.error("❌ Error fetching post:", err);
     res.status(500).json({ error: "Database query failed" });
   }
 });
-
 
 // Start server
 app.listen(PORT, () => {

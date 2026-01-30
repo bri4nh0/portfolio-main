@@ -51,7 +51,6 @@ export default function BlogPost () {
           {post.views} {post.views === 1 ? 'view' : 'views'}
         </div>
       
-        <div dangerouslySetInnerHTML={{ __html: post.content }} />
       </main>
 
       <Footer />
