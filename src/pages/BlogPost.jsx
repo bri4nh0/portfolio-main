@@ -46,6 +46,12 @@ export default function BlogPost () {
           By {post.author} • {new Date(post.created_at).toLocaleDateString()}
         </p>
         <div className="prose dark:prose-invert">{post.content}</div>
+
+        <div className="text-sm text-gray-500 mb-4">
+          {post.views} {post.views === 1 ? 'view' : 'views'}
+        </div>
+      
+        <div dangerouslySetInnerHTML={{ __html: post.content }} />
       </main>
 
       <Footer />
