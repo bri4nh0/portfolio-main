@@ -42,6 +42,16 @@ const PORT = process.env.PORT || 5000;
 
 // Routes
 app.get("/api/posts", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM posts ORDER BY created_at DESC");
+    res.json(result.rows);
+  } catch (error) {
+    console.error("❌ Error fetching posts:", error);
+    res.status(500).json({ error: "Database query failed" });
+  }
+});
+
+app.get("/api/posts/:id", async (req, res) => {
   const { id } = req.params;
   try {
     // First increment the view count
