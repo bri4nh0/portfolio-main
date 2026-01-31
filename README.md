@@ -12,7 +12,7 @@ Backend: Node.js, Express, PostgreSQL (Neon)
 Deployment: Vercel (frontend), Render (backend), Neon (database)
 
 Features:
-- Dynamic blog with view tracking
+- Dynamic blog with view tracking and database
 
 - Contact form with database storage
 
