@@ -1,16 +1,47 @@
-# React + Vite
+Portfolio Website
+A full-stack developer portfolio with dynamic blog and contact system.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🌐 Live Demo
+Portfolio: https://portfolio-main-flame-five.vercel.app
 
-Currently, two official plugins are available:
+API: https://portfolio-main-i403.onrender.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🛠️ Tech Stack
+Frontend: React, Vite, Tailwind CSS
 
-## React Compiler
+Backend: Node.js, Express, PostgreSQL (Neon)
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Deployment: Vercel (frontend), Render (backend), Neon (database)
 
-## Expanding the ESLint configuration
+✨ Features
+Dynamic blog with view tracking
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Contact form with database storage
+
+GitHub projects integration
+
+Full-stack architecture
+
+🚀 Quick Start
+bash
+git clone https://github.com/bri4nh0/portfolio-main.git
+cd portfolio-main
+npm install
+cd server && npm install
+# Set up environment variables and database
+npm run dev
+📁 Project Structure
+src/ - React frontend components
+
+server/ - Express backend API
+
+public/ - Static assets
+
+📬 API Endpoints
+GET /api/posts - Get all blog posts
+
+GET /api/posts/:id - Get single post (increments views)
+
+POST /api/contact - Submit contact form
+
+Built with React, Express, PostgreSQL • Deployed on Vercel + Render + Neon
